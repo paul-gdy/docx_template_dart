@@ -1,6 +1,7 @@
 import 'package:archive/archive.dart';
 import 'package:docx_template/docx_template.dart';
 import 'package:docx_template/src/view_manager.dart';
+import 'package:xml/xml.dart';
 
 import 'docx_entry.dart';
 
@@ -73,6 +74,18 @@ class DocxTemplate {
       }
     }
     return listTags;
+  }
+
+  //
+  Map<String, List<XmlNode>>? getContent() {
+    final viewManager = ViewManager.attach(
+      _manager,
+    );
+    var sub = viewManager.root.sub;
+    if(sub == null) {
+      return null;
+    }
+    return sub.map((key, value) => MapEntry(key, value.first.children));
   }
 
   ///
